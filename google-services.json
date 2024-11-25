@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1090710805189:android:1a046b1f3420b7ee82aeac",
+        "mobilesdk_app_id": "1:1090710805189:android:482b2b361912369082aeac",
         "android_client_info": {
-          "package_name": "com.ifsc.meinscrevo"
+          "package_name": "com.ifsc.meinscrevopdm"
         }
       },
       "oauth_client": [],
