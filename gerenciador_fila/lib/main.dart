@@ -3,11 +3,9 @@ import 'transaction_list.dart';
 import 'transaction_form.dart';
 import 'notes_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,6 +42,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _addYourTurn() {
+    setState(() {
+      _items.add("Sua vez"); // Adiciona "Sua vez" à lista
+    });
+  }
+
   void _openAddItemModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -67,23 +71,28 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fila da Sala: '),
+        title: Text('Fila da Sala: '),
       ),
       body: TransactionList(_items, _removeItem), // Lista de visitantes
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ElevatedButton.icon(
               onPressed: () => _openAddItemModal(context),
-              icon: const Icon(Icons.add),
-              label: const Text('Visitante'),
+              icon: Icon(Icons.add),
+              label: Text('Visitante'),
             ),
             ElevatedButton.icon(
               onPressed: () => _openNotesScreen(context),
-              icon: const Icon(Icons.note_add),
-              label: const Text('Anotações'),
+              icon: Icon(Icons.note_add),
+              label: Text('Anotações'),
+            ),
+            ElevatedButton.icon(
+              onPressed: _addYourTurn,
+              icon: Icon(Icons.pan_tool), // Substituído por um ícone válido
+              label: Text('Levantar a Mão'),
             ),
           ],
         ),
