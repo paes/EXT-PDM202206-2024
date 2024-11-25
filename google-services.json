@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1090710805189",
+    "project_id": "grenciamentofila",
+    "storage_bucket": "grenciamentofila.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090710805189:android:1a046b1f3420b7ee82aeac",
+        "android_client_info": {
+          "package_name": "com.ifsc.meinscrevo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFwY631RGq-_XNbMOvAIihnlKiMERcOps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
