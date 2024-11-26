@@ -1,0 +1,2 @@
+flutter pub add firebase_auth
+flutter pub add google_sign_in
