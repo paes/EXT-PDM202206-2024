@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'transaction_list.dart';
 import 'transaction_form.dart';
 import 'notes_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
@@ -16,6 +26,8 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -71,28 +83,28 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fila da Sala: '),
+        title: const Text('Fila da Sala: '),
       ),
       body: TransactionList(_items, _removeItem), // Lista de visitantes
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ElevatedButton.icon(
               onPressed: () => _openAddItemModal(context),
-              icon: Icon(Icons.add),
-              label: Text('Visitante'),
+              icon: const Icon(Icons.add),
+              label: const Text('Visitante'),
             ),
             ElevatedButton.icon(
               onPressed: () => _openNotesScreen(context),
-              icon: Icon(Icons.note_add),
-              label: Text('Anotações'),
+              icon: const Icon(Icons.note_add),
+              label: const Text('Anotações'),
             ),
             ElevatedButton.icon(
               onPressed: _addYourTurn,
-              icon: Icon(Icons.pan_tool), // Substituído por um ícone válido
-              label: Text('Levantar a Mão'),
+              icon: const Icon(Icons.pan_tool), // Substituído por um ícone válido
+              label: const Text('Levantar a Mão'),
             ),
           ],
         ),
