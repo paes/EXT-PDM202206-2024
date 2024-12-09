@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:core';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,14 +14,37 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController senhaController = TextEditingController();
   bool _obscureText = true; // Para controlar a visibilidade da senha
 
+  // Função para validar o formato do e-mail
+  bool _isEmailValid(String email) {
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+    return emailRegex.hasMatch(email);
+  }
+
+  // Função para validar a senha
+  bool _isSenhaValid(String senha) {
+    return senha.length >= 4;
+  }
+
   // Função para validar o formulário
   void _login() {
     final email = emailController.text;
     final senha = senhaController.text;
 
+    // Validando os campos
     if (email.isEmpty || senha.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, preencha todos os campos')),
+      );
+    } else if (!_isEmailValid(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, insira um e-mail válido')),
+      );
+    } else if (!_isSenhaValid(senha)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('A senha deve ter pelo menos 4 caracteres')),
       );
     } else {
       // Lógica de login
