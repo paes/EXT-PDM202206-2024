@@ -1,26 +1,47 @@
 import 'package:flutter/material.dart';
 import '../controller/home_controller.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  HomeScreenState createState() => HomeScreenState();
-}
-
-class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tela: '),
+        title: const Text('Home'),
       ),
-      body: const Center(
-        child: ElevatedButton(
-          onPressed: exemploMetodoController,
-          child: Text('click aqui'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const ElevatedButton(
+              onPressed: exemploMetodoController,
+              child: const Text('Exemplo Método Controller'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/host');
+              },
+              child: const Text('Ir para Painel Host'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/user');
+              },
+              child: const Text('Ir para Fila do Participante'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/report');
+              },
+              child: const Text('Ir para Relatório'),
+            ),
+          ],
         ),
-      )
+      ),
     );
   }
 }

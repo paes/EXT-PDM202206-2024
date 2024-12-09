@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'view/home_screen.dart';
+import 'view/login_screen.dart';
+import 'view/host_screen.dart';
+import 'view/user_screen.dart';
+import 'view/report_screen.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -16,10 +22,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) => const HomeScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/host': (context) => const HostScreen(),
+        '/user': (context) => const UserScreen(),
+        '/report': (context) => const ReportScreen(),
+      },
+      //home: HomeScreen(),
     );
   }
 }
-
