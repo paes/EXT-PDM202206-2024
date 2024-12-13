@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../controller/home_controller.dart';
+import '../services/auth_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,12 +10,20 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await AuthService().signout(context: context);
+            },
+          )
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const ElevatedButton(
+            ElevatedButton(
               onPressed: exemploMetodoController,
               child: const Text('Exemplo Método Controller'),
             ),

@@ -2,52 +2,37 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gerenciador_fila/services/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginScreen extends StatelessWidget {
-  // Tela de login, permitindo autenticação via email/senha e Google
-  LoginScreen({super.key});
+class SignupScreen extends StatelessWidget {
+  // Tela de cadastro com campos para email, senha e confirmação da senha.
+  // Ao confirmar, verifica se as senhas coincidem e cria a conta, redirecionando para a tela inicial.
+
+  SignupScreen({super.key});
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
-      bottomNavigationBar: _signupNavigation(context),
+      bottomNavigationBar: _signin(context),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        toolbarHeight: 100,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-            margin: const EdgeInsets.only(left: 10),
-            decoration: const BoxDecoration(
-              color: Color(0xffF7F7F9),
-              shape: BoxShape.circle
-            ),
-            child: const Center(
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ),
+        toolbarHeight: 50,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Center(
                 child: Text(
-                  'Hello Again',
+                  'Register Account',
                   style: GoogleFonts.raleway(
                     textStyle: const TextStyle(
                       color: Colors.black,
@@ -61,18 +46,18 @@ class LoginScreen extends StatelessWidget {
               _emailAddress(),
               const SizedBox(height: 20,),
               _password(),
+              const SizedBox(height: 20,),
+              _confirmPassword(),
               const SizedBox(height: 50,),
-              _signin(context),
-              const SizedBox(height: 20),
-              _googleSignInButton(context),
+              _signup(context),
             ],
           ),
         ),
-      ),
+      )
     );
   }
 
-  // Campo de email do usuário
+  // Campo para inserir o email do usuário
   Widget _emailAddress() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +92,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  // Campo de senha do usuário
+  // Campo para inserir a senha
   Widget _password() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,8 +108,8 @@ class LoginScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16,),
         TextField(
-          obscureText: true,
           controller: _passwordController,
+          obscureText: true,
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color(0xffF7F7F9),
@@ -138,8 +123,39 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  // Botão para fazer login com email e senha
-  Widget _signin(BuildContext context) {
+  // Campo para confirmar a senha digitada
+  Widget _confirmPassword() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Confirm Password',
+          style: GoogleFonts.raleway(
+            textStyle: const TextStyle(
+              color: Colors.black,
+              fontSize: 16
+            )
+          ),
+        ),
+        const SizedBox(height: 16,),
+        TextField(
+          controller: _confirmPasswordController,
+          obscureText: true,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: const Color(0xffF7F7F9),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(14)
+            )
+          ),
+        )
+      ],
+    );
+  }
+
+  // Botão para finalizar o cadastro após validar email e senhas
+  Widget _signup(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xff0D6EFD),
@@ -150,43 +166,35 @@ class LoginScreen extends StatelessWidget {
         elevation: 0,
       ),
       onPressed: () async {
-        await AuthService().signin(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
+        final email = _emailController.text.trim();
+        final password = _passwordController.text.trim();
+        final confirmPassword = _confirmPasswordController.text.trim();
+
+        // Verifica se as senhas conferem
+        if (password != confirmPassword) {
+          Fluttertoast.showToast(
+            msg: "As senhas não conferem",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.black54,
+            textColor: Colors.white,
+          );
+          return;
+        }
+
+        // Cria a conta e navega para a Home
+        await AuthService().signup(
+          email: email,
+          password: password,
           context: context
         );
       },
-      child: const Text("Sign In"),
+      child: const Text("Sign Up"),
     );
   }
 
-  // Botão para fazer login com o Google
-  Widget _googleSignInButton(BuildContext context) {
-    return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
-        side: const BorderSide(color: Colors.black12),
-        minimumSize: const Size(double.infinity, 60),
-        elevation: 0,
-      ),
-      icon: Image.asset(
-        'assets/images/google.png',
-        height: 24,
-        width: 24,
-      ),
-      label: const Text("Sign in with Google"),
-      onPressed: () async {
-        await AuthService().signinWithGoogle(context: context);
-      },
-    );
-  }
-
-  // Rodapé com opção para ir para a tela de cadastro
-  Widget _signupNavigation(BuildContext context) {
+  // Link no rodapé para ir para a tela de login caso já possua conta
+  Widget _signin(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: RichText(
@@ -194,20 +202,20 @@ class LoginScreen extends StatelessWidget {
         text: TextSpan(
           children: [
             const TextSpan(
-              text: "Não tem uma conta? ",
+              text: "Already Have Account? ",
               style: TextStyle(
                 color: Color(0xff6A6A6A),
                 fontSize: 16
               ),
             ),
             TextSpan(
-              text: "Cadastre-se",
+              text: "Log In",
               style: const TextStyle(
                 color: Color(0xff1A1D1E),
                 fontSize: 16
               ),
               recognizer: TapGestureRecognizer()..onTap = () {
-                Navigator.pushNamed(context, '/signup');
+                Navigator.pushNamed(context, '/login');
               }
             ),
           ]
