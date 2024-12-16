@@ -56,15 +56,24 @@ class HostScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        await _createRoom(
+                        final roomId = await _createRoom(
                           _roomNameController.text,
                           _roomDescriptionController.text,
                         );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Sala criada com sucesso!'),
-                          ),
-                        );
+                        if (roomId != null) {
+                          Navigator.pushNamed(
+                            context,
+                            '/room',
+                            arguments: {'roomId': roomId},
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'Erro ao criar a sala. Tente novamente.'),
+                            ),
+                          );
+                        }
                         _roomNameController.clear();
                         _roomDescriptionController.clear();
                       }
@@ -87,15 +96,18 @@ class HostScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _createRoom(String name, String description) async {
+  Future<String?> _createRoom(String name, String description) async {
     try {
-      await FirebaseFirestore.instance.collection('rooms').add({
+      final roomRef = await FirebaseFirestore.instance.collection('rooms').add({
         'name': name,
         'description': description,
         'created_at': Timestamp.now(),
       });
+      print(roomRef.id);
+      return roomRef.id; // Retorna o ID da sala criada
     } catch (e) {
       print('Erro ao criar sala: $e');
+      return null; // Retorna null em caso de erro
     }
   }
 }

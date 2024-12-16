@@ -7,6 +7,7 @@ import 'view/host_screen.dart';
 import 'view/user_screen.dart';
 import 'view/report_screen.dart';
 import 'view/guest_screen.dart';
+import 'view/room_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/report': (context) => const ReportScreen(),
         '/signup': (context) => SignupScreen(),
         '/guest': (context) => GuestScreen(),
+        '/room': (context) => const RoomScreen()
       },
       //home: HomeScreen(),
     );
