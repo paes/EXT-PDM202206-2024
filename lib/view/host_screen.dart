@@ -71,6 +71,13 @@ class HostScreen extends StatelessWidget {
                     },
                     child: const Text('Criar Sala'),
                   ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/guest');
+                    },
+                    child: const Text('Criar Guest'),
+                  )
                 ],
               ),
             ),
