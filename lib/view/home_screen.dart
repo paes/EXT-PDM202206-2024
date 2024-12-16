@@ -48,6 +48,13 @@ class HomeScreen extends StatelessWidget {
               },
               child: const Text('Ir para Relatório'),
             ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/list');
+              },
+              child: const Text('Ir para Lista de Salas'),
+            ),
           ],
         ),
       ),

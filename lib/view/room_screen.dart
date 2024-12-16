@@ -11,7 +11,21 @@ class RoomScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('Sala: $roomId')),
-      body: Center(child: Text('Bem-vindo à sala $roomId!')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Bem-vindo à sala $roomId!'),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/guest');
+              },
+              child: const Text('Criar Guest'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
