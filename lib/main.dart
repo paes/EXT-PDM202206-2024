@@ -9,6 +9,8 @@ import 'view/report_screen.dart';
 import 'view/guest_screen.dart';
 import 'view/room_screen.dart';
 import 'view/room_list_screen.dart';
+import 'view/report_screen.dart' as report;
+
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -34,12 +36,12 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/host': (context) => const HostScreen(),
         '/user': (context) => const UserScreen(),
-        '/report': (context) => const ReportScreen(),
+        '/report': (context) => const report.RelatorioScreen(),
         '/signup': (context) => SignupScreen(),
         '/guest': (context) => GuestScreen(),
         '/room': (context) => const RoomScreen(),
-        '/list': (context) => const RoomListScreen()
-      },
+        '/list': (context) => const RoomListScreen(),
+      }
       //home: HomeScreen(),
     );
   }
